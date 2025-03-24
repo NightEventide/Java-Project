@@ -14,6 +14,7 @@ public class JavaProject {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        System.out.println("First Commit");
         // TODO code application logic here
     }
     
