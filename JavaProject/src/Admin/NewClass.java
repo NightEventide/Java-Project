@@ -11,6 +11,6 @@ package Admin;
 public class NewClass {
     
         public NewClass() {
-        System.out.println("Stupid project");
+        System.out.println("stupid project");
     }
 }
