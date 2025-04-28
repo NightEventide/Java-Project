@@ -37,7 +37,7 @@
                       <EmptySpace min="-2" pref="134" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="password1" min="-2" max="-2" attributes="0"/>
-                          <Component id="uusername" min="-2" max="-2" attributes="0"/>
+                          <Component id="username" min="-2" max="-2" attributes="0"/>
                           <Component id="password2" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -54,7 +54,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
-              <Component id="uusername" min="-2" max="-2" attributes="0"/>
+              <Component id="username" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="password1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
@@ -79,7 +79,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="createaccountActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="uusername">
+    <Component class="javax.swing.JTextField" name="username">
     </Component>
     <Component class="javax.swing.JPasswordField" name="password1">
       <Events>
@@ -87,6 +87,9 @@
       </Events>
     </Component>
     <Component class="javax.swing.JPasswordField" name="password2">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="password2ActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JCheckBox" name="checkpass1">
       <Properties>

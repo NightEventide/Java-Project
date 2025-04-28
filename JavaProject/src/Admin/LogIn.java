@@ -136,9 +136,8 @@ public class LogIn extends javax.swing.JFrame {
 
         if (username.equals("admin") && password.equals("password123")) {
             JOptionPane.showMessageDialog(this, "Login Successful!");
-            // Redirect to the admin dashboard
             new Admindashboard().setVisible(true);
-            this.dispose(); // Close the login window
+            this.dispose();
         } 
     }//GEN-LAST:event_LoginActionPerformed
 

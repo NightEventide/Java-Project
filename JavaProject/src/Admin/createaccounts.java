@@ -30,7 +30,7 @@ public class createaccounts extends javax.swing.JFrame {
     private void initComponents() {
 
         createaccount = new javax.swing.JButton();
-        uusername = new javax.swing.JTextField();
+        username = new javax.swing.JTextField();
         password1 = new javax.swing.JPasswordField();
         password2 = new javax.swing.JPasswordField();
         checkpass1 = new javax.swing.JCheckBox();
@@ -48,6 +48,12 @@ public class createaccounts extends javax.swing.JFrame {
         password1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 password1ActionPerformed(evt);
+            }
+        });
+
+        password2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                password2ActionPerformed(evt);
             }
         });
 
@@ -81,7 +87,7 @@ public class createaccounts extends javax.swing.JFrame {
                         .addGap(134, 134, 134)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(password1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(uusername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(password2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(146, 146, 146)
@@ -92,7 +98,7 @@ public class createaccounts extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(63, 63, 63)
-                .addComponent(uusername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(password1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -111,19 +117,19 @@ public class createaccounts extends javax.swing.JFrame {
 
     private void createaccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createaccountActionPerformed
         // TODO add your handling code here:
-        String username = UsernameText.getText();
-        String password1 = new String(PasswordField.getPassword());
-        String password2 = new String(ConfirmPass.getPassword());
-        if (username.isEmpty() || password1.isEmpty() || password2.isEmpty()){
+        String UserN = username.getText().trim();
+        String Pass1 = new String(password1.getPassword()).trim();
+        String Pass2 = new String(password2.getPassword()).trim();
+        if (UserN.isEmpty() || Pass1.isEmpty() || Pass2.isEmpty()){
             JOptionPane.showMessageDialog(this,"Username and Password cannot be empty!");
             createaccounts newpage = new createaccounts();
             newpage.setVisible(true);
             dispose();
         }
         else{
-            if (password1.equals(password2)){
+            if (Pass1.equals(Pass2)){
                 JOptionPane.showMessageDialog(this,"Manager has been created!");
-                try (BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\user\\Documents\\NetBeansProjects\\LogInPage\\src\\Database\\ManagerUsers.txt", true))) {
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\seanl\\OneDrive\\Documents\\NetBeansProjects\\Java-Project\\JavaProject\\src\\DataStorage\\Users", true))) {
                     writer.write(UserN + ',' + Pass1);
                     writer.newLine();
                     writer.close();
@@ -142,8 +148,8 @@ public class createaccounts extends javax.swing.JFrame {
                 createaccounts newpage = new createaccounts();
                 newpage.setVisible(true);
                 dispose();
-            } 
-        }
+            }
+        }
     }//GEN-LAST:event_createaccountActionPerformed
 
     private void password1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_password1ActionPerformed
@@ -152,8 +158,8 @@ public class createaccounts extends javax.swing.JFrame {
 
     private void checkpass1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkpass1ActionPerformed
         // TODO add your handling code here:
-        if (password1.isSelected()){
-            password1.setEchoChar((char)0);
+        if (checkpass1.isSelected()){
+        password1.setEchoChar((char)0);
         }
         else{
             password1.setEchoChar('*');
@@ -162,13 +168,17 @@ public class createaccounts extends javax.swing.JFrame {
 
     private void checkpass2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkpass2ActionPerformed
         // TODO add your handling code here:
-        if (password2.isSelected()){
-            password2.setEchoChar((char)0);
+        if (checkpass2.isSelected()){
+        password2.setEchoChar((char)0);
         }
         else{
             password2.setEchoChar('*');
         }
     }//GEN-LAST:event_checkpass2ActionPerformed
+
+    private void password2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_password2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_password2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -211,6 +221,6 @@ public class createaccounts extends javax.swing.JFrame {
     private javax.swing.JButton createaccount;
     private javax.swing.JPasswordField password1;
     private javax.swing.JPasswordField password2;
-    private javax.swing.JTextField uusername;
+    private javax.swing.JTextField username;
     // End of variables declaration//GEN-END:variables
 }
