@@ -134,7 +134,7 @@ public class LogIn extends javax.swing.JFrame {
         String username = usernamefield.getText();
         String password = new String(passwordfield.getPassword());
 
-        if (username.equals("admin") && password.equals("password123")) {
+        if (username.equals("123") && password.equals("123")) {
             JOptionPane.showMessageDialog(this, "Login Successful!");
             new Admindashboard().setVisible(true);
             this.dispose();
