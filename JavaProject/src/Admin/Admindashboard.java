@@ -42,6 +42,7 @@ public class Admindashboard extends javax.swing.JPanel {
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/DataStorage/user.jpg"))); // NOI18N
 
+        CUser.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         CUser.setText("CUser");
 
         AdminDashboard.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -71,7 +72,7 @@ public class Admindashboard extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(CUser, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(CUser, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18))
