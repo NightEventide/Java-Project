@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package Admin;
+package MainClassFolder;
 
+import Admin.Admindashboard;
 import javax.swing.*;
 
 /**
@@ -72,7 +73,7 @@ public class LogIn extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(36, 36, 36)
+                .addGap(39, 39, 39)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(layout.createSequentialGroup()
@@ -88,12 +89,12 @@ public class LogIn extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(Login)
                             .addComponent(showpass))))
-                .addContainerGap(139, Short.MAX_VALUE))
+                .addContainerGap(136, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(77, 77, 77)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(89, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Username, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(usernamefield, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -105,7 +106,7 @@ public class LogIn extends javax.swing.JFrame {
                 .addComponent(showpass)
                 .addGap(42, 42, 42)
                 .addComponent(Login)
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addGap(30, 30, 30))
         );
 
         pack();
@@ -136,8 +137,15 @@ public class LogIn extends javax.swing.JFrame {
 
         if (username.equals("123") && password.equals("123")) {
             JOptionPane.showMessageDialog(this, "Login Successful!");
-            new Admindashboard().setVisible(true);
-            this.dispose();
+            
+            // Opening and closing across windows
+            JFrame frame = new JFrame("Admin Dashboard");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setContentPane(new Admindashboard()); // Which panel to oepn
+            frame.pack();
+            frame.setLocationRelativeTo(null); // Center on screen
+            frame.setVisible(true);
+            this.dispose(); // Close Jframe
         } 
     }//GEN-LAST:event_LoginActionPerformed
 
