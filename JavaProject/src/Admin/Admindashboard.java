@@ -102,7 +102,7 @@ public class Admindashboard extends javax.swing.JPanel {
             }
         });
 
-        back.setText("Back");
+        back.setText("Log Out");
         back.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 backActionPerformed(evt);
@@ -228,9 +228,11 @@ public class Admindashboard extends javax.swing.JPanel {
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
         // TODO add your handling code here:
         JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        frame.setContentPane(new LogIn()); // Replace current panel with LogIn
-        frame.revalidate(); // Refresh layout
-        frame.repaint();    // Redraw
+        frame.dispose(); // Close current frame
+
+        // Create a new instance of LogIn JFrame and show it
+        LogIn login = new LogIn();
+        login.setVisible(true); // Show the LogIn JFrame
     }//GEN-LAST:event_backActionPerformed
 
 
