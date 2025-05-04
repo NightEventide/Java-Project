@@ -5,6 +5,12 @@
 package MainClassFolder;
 
 import Admin.Admindashboard;
+import FinanceManager.Financedashboard;
+import InventoryManager.Iventorydashboard;
+import PurchaseManager.Purchasedashboard;
+import SalesManager.Salesdashboard;
+import java.io.File;
+import java.util.Scanner;
 import javax.swing.*;
 
 /**
@@ -20,6 +26,34 @@ public class LogIn extends javax.swing.JFrame {
         initComponents();
     }
     
+private String authenticateUser(String username, String password) {
+    String[] roles = { "Admin", "Finance", "Inventory", "Purchase", "Sales" };
+
+    for (String role : roles) {
+        File file = new File("src/DataStorage/" + role + ".txt");
+        if (!file.exists()) continue;
+
+        try (Scanner scanner = new Scanner(file)) {
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine().trim();
+                String[] parts = line.split(",");
+                if (parts.length == 2) {
+                    String fileUsername = parts[0].trim();
+                    String filePassword = parts[1].trim();
+                    
+                    if (username.equals(fileUsername) && password.equals(filePassword)) {
+                        return role;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    return null; // No match found
+}
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -132,10 +166,52 @@ public class LogIn extends javax.swing.JFrame {
 
     private void LoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginActionPerformed
         // TODO add your handling code here:
-        String username = usernamefield.getText();
-        String password = new String(passwordfield.getPassword());
+        String username = usernamefield.getText().trim();
+        String password = new String(passwordfield.getPassword()).trim();
 
-        if (username.equals("123") && password.equals("123")) {
+        if (username.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please fill in both username and password.", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return;
+    }
+
+        String role = authenticateUser(username, password);
+        
+        if (role != null) {
+            JOptionPane.showMessageDialog(this, "Login Successful as " + role + "!");
+            JFrame frame = new JFrame();
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Load different dashboard panels based on role
+            switch (role) {
+                case "Admin":
+                    frame.setContentPane(new Admindashboard());
+                    break;
+                case "Finance": 
+                    frame.setContentPane(new Financedashboard()); 
+                    break;
+                case "Invetory": 
+                    frame.setContentPane(new Iventorydashboard()); 
+                    break;
+                case "Purchase": 
+                    frame.setContentPane(new Purchasedashboard()); 
+                    break;
+                case "Sales": 
+                    frame.setContentPane(new Salesdashboard()); 
+                    break;
+                    
+                default:
+                    JOptionPane.showMessageDialog(this, "Dashboard for role '" + role + "' is not yet implemented.");
+                    return;
+        }
+
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        this.dispose();
+    } else {
+        JOptionPane.showMessageDialog(this, "Invalid credentials.", "Login Failed", JOptionPane.ERROR_MESSAGE);
+    }
+        /* if (username.equals("123") && password.equals("123")) {
             JOptionPane.showMessageDialog(this, "Login Successful!");
             
             // Opening and closing across windows
@@ -147,6 +223,10 @@ public class LogIn extends javax.swing.JFrame {
             frame.setVisible(true);
             this.dispose(); // Close Jframe
         } 
+        
+        else {
+        JOptionPane.showMessageDialog(this, "Invalid credentials. Please try again.", "Login Failed", JOptionPane.ERROR_MESSAGE);
+    }*/
     }//GEN-LAST:event_LoginActionPerformed
 
     /**

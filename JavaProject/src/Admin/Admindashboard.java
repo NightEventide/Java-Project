@@ -5,7 +5,7 @@
 package Admin;
 
 import FinanceManager.Financedashboard;
-import IventoryManager.Iventorydashboard;
+import InventoryManager.Iventorydashboard;
 import MainClassFolder.LogIn;
 import PurchaseManager.Purchasedashboard;
 import SalesManager.Salesdashboard;
