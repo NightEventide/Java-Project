@@ -139,7 +139,7 @@ public class LogIn extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Login Successful!");
             
             // Opening and closing across windows
-            JFrame frame = new JFrame("Admin Dashboard");
+            JFrame frame = new JFrame();
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setContentPane(new Admindashboard()); // Which panel to oepn
             frame.pack();
