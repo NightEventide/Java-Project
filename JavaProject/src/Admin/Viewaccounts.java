@@ -7,6 +7,8 @@ package Admin;
 import java.io.File;
 import java.util.Scanner;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
@@ -39,8 +41,6 @@ public class Viewaccounts extends javax.swing.JPanel {
 });
 
     }
-    
-
 
 // Add these as instance variables
     
@@ -71,6 +71,35 @@ private void populateUserTable(DefaultTableModel model, String filterRole) {
     }
 }
 
+private void updateUserInFile(String role, String oldUsername, String newUsername, String newPassword) {
+    File file = new File("src/DataStorage/" + role + ".txt");
+    File tempFile = new File("src/DataStorage/" + role + "_temp.txt");
+
+    try (Scanner scanner = new Scanner(file);
+         java.io.PrintWriter writer = new java.io.PrintWriter(tempFile)) {
+
+        while (scanner.hasNextLine()) {
+            String line = scanner.nextLine();
+            String[] parts = line.split(",");
+            if (parts.length == 2 && parts[0].trim().equals(oldUsername)) {
+                writer.println(newUsername + "," + newPassword);
+            } else {
+                writer.println(line);
+            }
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error updating user file.");
+        return;
+    }
+
+    // Replace original file
+    if (file.delete()) {
+        tempFile.renameTo(file);
+    } else {
+        JOptionPane.showMessageDialog(this, "Failed to update user file.");
+    }
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -123,6 +152,11 @@ private void populateUserTable(DefaultTableModel model, String filterRole) {
         Selecttype.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         Edit.setText("Edit");
+        Edit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EditActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -181,6 +215,50 @@ private void populateUserTable(DefaultTableModel model, String filterRole) {
         frame.revalidate(); // Refresh the layout
         frame.repaint();    // Redraw the window
     }//GEN-LAST:event_BackActionPerformed
+
+    private void EditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditActionPerformed
+        // TODO add your handling code here:
+        int selectedRow = jTable1.getSelectedRow();
+
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a user to edit.");
+            return;
+        }
+
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        String role = model.getValueAt(selectedRow, 0).toString();
+        String oldUsername = model.getValueAt(selectedRow, 1).toString();
+
+        // Prompt user for new details
+        String newUsername = JOptionPane.showInputDialog(this, "Enter new username:", oldUsername);
+        if (newUsername == null || newUsername.trim().isEmpty()) return;
+
+        // Prompt for new password (masked)
+        JPasswordField passwordField = new JPasswordField();
+        int passwordOption = JOptionPane.showConfirmDialog(
+            this, passwordField, "Enter new password:", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        if (passwordOption != JOptionPane.OK_OPTION) return;
+        String newPassword = new String(passwordField.getPassword());
+
+        // Prompt for confirmation (masked)
+        JPasswordField confirmField = new JPasswordField();
+        int confirmOption = JOptionPane.showConfirmDialog(
+            this, confirmField, "Confirm new password:", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        if (confirmOption != JOptionPane.OK_OPTION) return;
+        String confirmPassword = new String(confirmField.getPassword());
+
+        // Check if passwords match
+        if (!newPassword.equals(confirmPassword)) {
+            JOptionPane.showMessageDialog(this, "Passwords do not match. Please try again.");
+        return;
+    }
+
+        updateUserInFile(role, oldUsername, newUsername, newPassword);
+
+    // Refresh table
+    model.setRowCount(0);
+    populateUserTable(model, Selecttype.getSelectedItem().toString());
+    }//GEN-LAST:event_EditActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
