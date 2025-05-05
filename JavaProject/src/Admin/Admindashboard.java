@@ -4,6 +4,7 @@
  */
 package Admin;
 
+import DataStorage.CurrentUser;
 import FinanceManager.Financedashboard;
 import InventoryManager.Iventorydashboard;
 import MainClassFolder.LogIn;
@@ -23,6 +24,7 @@ public class Admindashboard extends javax.swing.JPanel {
      */
     public Admindashboard() {
         initComponents();
+        CUser.setText(CurrentUser.getUsername());
     }
 
     /**

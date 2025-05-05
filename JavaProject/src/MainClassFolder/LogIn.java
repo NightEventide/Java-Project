@@ -5,6 +5,7 @@
 package MainClassFolder;
 
 import Admin.Admindashboard;
+import DataStorage.CurrentUser;
 import FinanceManager.Financedashboard;
 import InventoryManager.Iventorydashboard;
 import PurchaseManager.Purchasedashboard;
@@ -177,6 +178,8 @@ private String authenticateUser(String username, String password) {
         String role = authenticateUser(username, password);
         
         if (role != null) {
+            CurrentUser.setUsername(username);
+            
             JOptionPane.showMessageDialog(this, "Login Successful as " + role + "!");
             JFrame frame = new JFrame();
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -211,22 +214,6 @@ private String authenticateUser(String username, String password) {
     } else {
         JOptionPane.showMessageDialog(this, "Invalid credentials.", "Login Failed", JOptionPane.ERROR_MESSAGE);
     }
-        /* if (username.equals("123") && password.equals("123")) {
-            JOptionPane.showMessageDialog(this, "Login Successful!");
-            
-            // Opening and closing across windows
-            JFrame frame = new JFrame();
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setContentPane(new Admindashboard()); // Which panel to oepn
-            frame.pack();
-            frame.setLocationRelativeTo(null); // Center on screen
-            frame.setVisible(true);
-            this.dispose(); // Close Jframe
-        } 
-        
-        else {
-        JOptionPane.showMessageDialog(this, "Invalid credentials. Please try again.", "Login Failed", JOptionPane.ERROR_MESSAGE);
-    }*/
     }//GEN-LAST:event_LoginActionPerformed
 
     /**

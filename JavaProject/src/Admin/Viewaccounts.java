@@ -4,6 +4,7 @@
  */
 package Admin;
 
+import DataStorage.CurrentUser;
 import java.io.File;
 import java.util.Scanner;
 import javax.swing.JFrame;
@@ -23,6 +24,7 @@ public class Viewaccounts extends javax.swing.JPanel {
      */
     public Viewaccounts() {
         initComponents();
+        CUser.setText(CurrentUser.getUsername());
         // Table
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0); // clear any existing dummy data
@@ -37,6 +39,8 @@ public class Viewaccounts extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0); // Clear table
         populateUserTable(model, selectedRole); // Refill with filtered data
+        
+
     }
 });
 
@@ -112,12 +116,13 @@ private void updateUserInFile(String role, String oldUsername, String newUsernam
 
         Back = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        CUser = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         Selecttype = new javax.swing.JComboBox<>();
         Edit = new javax.swing.JButton();
+        delete = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(400, 305));
 
@@ -130,8 +135,8 @@ private void updateUserInFile(String role, String oldUsername, String newUsernam
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/DataStorage/user.jpg"))); // NOI18N
 
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        jLabel2.setText("CUser");
+        CUser.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        CUser.setText("CUser");
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("View Accounts");
@@ -158,6 +163,13 @@ private void updateUserInFile(String role, String oldUsername, String newUsernam
             }
         });
 
+        delete.setText("Delete");
+        delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -168,7 +180,7 @@ private void updateUserInFile(String role, String oldUsername, String newUsernam
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(Back)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(CUser, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel1)
                         .addGap(17, 17, 17))
@@ -181,7 +193,8 @@ private void updateUserInFile(String role, String oldUsername, String newUsernam
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(Selecttype, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Edit))
+                            .addComponent(Edit)
+                            .addComponent(delete))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -189,7 +202,7 @@ private void updateUserInFile(String role, String oldUsername, String newUsernam
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(CUser, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel1)
                         .addComponent(Back)))
@@ -202,9 +215,11 @@ private void updateUserInFile(String role, String oldUsername, String newUsernam
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(Selecttype, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 96, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
                         .addComponent(Edit)
-                        .addGap(85, 85, 85))))
+                        .addGap(18, 18, 18)
+                        .addComponent(delete)
+                        .addGap(44, 44, 44))))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -260,13 +275,64 @@ private void updateUserInFile(String role, String oldUsername, String newUsernam
     populateUserTable(model, Selecttype.getSelectedItem().toString());
     }//GEN-LAST:event_EditActionPerformed
 
+    private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
+        // TODO add your handling code here:
+        int selectedRow = jTable1.getSelectedRow();
+
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a user to delete.");
+            return;
+        }
+
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        String role = model.getValueAt(selectedRow, 0).toString();
+        String usernameToDelete = model.getValueAt(selectedRow, 1).toString();
+
+        int confirm = JOptionPane.showConfirmDialog(
+            this,
+            "Are you sure you want to delete user \"" + usernameToDelete + "\" from " + role + "?",
+            "Confirm Delete",
+            JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirm != JOptionPane.YES_OPTION) return;
+
+        File file = new File("src/DataStorage/" + role + ".txt");
+        File tempFile = new File("src/DataStorage/" + role + "_temp.txt");
+
+        try (
+            Scanner scanner = new Scanner(file);
+            java.io.PrintWriter writer = new java.io.PrintWriter(tempFile)
+        ) {
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine().trim();
+                if (!line.startsWith(usernameToDelete + ",")) {
+                    writer.println(line);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "An error occurred while deleting the user.");
+            return;
+        }
+
+        if (!file.delete() || !tempFile.renameTo(file)) {
+            JOptionPane.showMessageDialog(this, "Failed to update the file.");
+            return;
+        }
+
+        // Refresh table
+        model.setRowCount(0);
+        populateUserTable(model, Selecttype.getSelectedItem().toString());
+    }//GEN-LAST:event_deleteActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Back;
+    private javax.swing.JLabel CUser;
     private javax.swing.JButton Edit;
     private javax.swing.JComboBox<String> Selecttype;
+    private javax.swing.JButton delete;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
